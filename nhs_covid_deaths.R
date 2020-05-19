@@ -18,12 +18,11 @@ if(hour(Sys.time())>=14){
 }
 
 # set the date for the latest deaths by ethnicity data - used in chart titles
-deaths_date = "28th April 2020"
-
+deaths_date = "12th May 2020"
 # create date part of filename for deaths data
 date = paste0(day(data_date),"-",month(data_date, label=TRUE, abbr=FALSE),"-",year(data_date))
 # download deaths by age and ethnicity data from NHS England
-source_deaths = paste0("https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/04/COVID-19-total-announced-deaths-",date,".xlsx")
+source_deaths = paste0("https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/0",month(data_date),"/COVID-19-total-announced-deaths-",date,".xlsx")
 dest_deaths = "data/nhs_deaths.xlsx"
 # saved file uses data published on "2020-04-30"
 # "https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/04/COVID-19-total-announced-deaths-30-April-2020.xlsx"
@@ -38,7 +37,7 @@ deaths_by_age = read_excel(dest_deaths, sheet = "COVID19 total deaths by age", s
   filter(age_group != "Total")
 
 # clean up the deaths by ethnicity data from NHS England
-deaths_by_ethnicity = read_excel(dest_deaths, sheet = "COVID19 total by ethnicity", skip=15) %>%
+deaths_by_ethnicity = read_excel(dest_deaths, sheet = "COVID19 all deaths by ethnicity", skip=15) %>%
   select(ethnic_group=1, deaths=3, proportion=5) %>% 
   filter(!is.na(ethnic_group) & !is.na(proportion) & ethnic_group != "Total") %>%
   separate(ethnic_group,into=c("ethnic_group", "ethnicity"),sep=" \\(") %>%
@@ -53,7 +52,7 @@ age_ethnicity_structure = read_csv("data/age_structure_ethnicity_census.csv", sk
   gather("ethnicity","population", -1) %>%
   separate(ethnicity,into = c("ethnicity","subethnicity"), sep=": ") %>%
   spread(Age, population) %>%
-  mutate(`0-19` = `Age 0 to 4` + `Age 0 to 4` + `Age 15` + `Age 16 to 17` + `Age 18 to 19`,
+  mutate(`0-19` = `Age 0 to 4` + `Age 5 to 7` + `Age 8 to 9` + `Age 10 to 14` + `Age 15` + `Age 16 to 17` + `Age 18 to 19`,
          `20-39` = `Age 20 to 24` + `Age 25 to 29` + `Age 30 to 34` + `Age 35 to 39`,
          `40-59` = `Age 40 to 44` + `Age 45 to 49` + `Age 50 to 54` + `Age 55 to 59`,
          `60-79` = `Age 60 to 64` + `Age 65 to 69` + `Age 70 to 74` + `Age 75 to 79`,
@@ -146,7 +145,7 @@ create_level_1_ethnicity_plots = function(){
   # plot the numbers of expected and observed deaths 
   obs_exp_plot = ggplot(subset(graph_data_1,variable %in% c("Observed Deaths","Expected Deaths")),aes(x=ethnicity,y=value, group=variable, fill=variable)) +
     geom_col(position="dodge", colour="black") + 
-    geom_text(aes(label = scales::comma(value)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5) +
+    geom_text(aes(label = scales::comma(value)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5, fontface="bold") +
     xlab("Ethnicity") +
     ylab("Total number of deaths in hospital") +
     scale_fill_manual(values = c("Expected Deaths"="#003F5C","Observed Deaths"="#E69F00")) + 
@@ -163,7 +162,7 @@ create_level_1_ethnicity_plots = function(){
          Data are from the ONS (ethnicity) and NHS England (deaths) \n
          Expected deaths are adjusted for age structure of ethnic groups") 
   
-  ggsave("figures/obs_exp_plot.png", obs_exp_plot, width = 7, height = 6)
+  ggsave("figures/obs_exp_plot.png", obs_exp_plot, width = 9, height = 6)
   
   # plot the excess deaths as the difference between expected and observed number of deaths (observed - expected)
   diff_plot = ggplot(subset(graph_data_1,variable=="Difference"),aes(x=ethnicity,y=value)) +
@@ -186,7 +185,7 @@ create_level_1_ethnicity_plots = function(){
          Expected deaths are adjusted for age structure of ethnic groups") +
     coord_flip()
   
-  ggsave("figures/diff_plot.png", diff_plot, width = 8, height = 6)
+  ggsave("figures/diff_plot.png", diff_plot, width = 9, height = 6)
   
   diff_plot_perc = ggplot(subset(graph_data_1,variable=="Difference (% of Expected)"),aes(x=ethnicity,y=value)) +
     geom_col( fill="#bb1c0a") + 
@@ -208,7 +207,7 @@ create_level_1_ethnicity_plots = function(){
          Expected deaths are adjusted for age structure of ethnic groups") +
     coord_flip()
   
-  ggsave("figures/diff_plot_perc.png", diff_plot_perc, width = 8, height = 6)
+  ggsave("figures/diff_plot_perc.png", diff_plot_perc, width = 9, height = 6)
 }
 
 create_level_2_ethnicity_plots = function(){
@@ -410,13 +409,14 @@ create_population_age_distribution_plots = function(){
   names(ethnicity_labels) = c("White","Asian","Black","Mixed","Other")
   
   pop_structure_plot = ggplot(age_structure_eth, aes(x=age_group, y=proportion)) +
-    geom_col(position="dodge", colour="black", fill="#ef9f1e") + 
-    geom_text(aes(label = scales::percent(proportion,accuracy = 1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5) +
+    geom_col(position="dodge", colour="black", aes(fill=age_group)) + 
+    geom_text(aes(label = scales::percent(proportion,accuracy = 1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2, fontface="bold") +
     xlab("Age Group") +
     ylab("Proportion of Population") +
-    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-    facet_wrap(.~ethnicity, labeller = labeller(ethnicity = ethnicity_labels)) +
-    theme_bw() + 
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits=c(0,0.55)) +
+    scale_fill_manual(values = c("#ef9f1e","#ef9f1e","#ef9f1e","#bb1c0a","#bb1c0a")) +
+    facet_wrap(.~ethnicity, labeller = labeller(ethnicity = ethnicity_labels), nrow=1) +
+    theme_bw(base_size = 8) + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(), 
           plot.margin = unit(c(1.5, 1.5, 1.5, 1.5), "lines"),
@@ -429,7 +429,7 @@ create_population_age_distribution_plots = function(){
          caption = "Plot by Miqdad Asaria (@miqedup)\n
          Data are from the ONS census 2011 (ethnicity)") 
   
-  ggsave("figures/pop_structure_plot.png", pop_structure_plot, width = 9, height = 8)
+  ggsave("figures/pop_structure_plot.png", pop_structure_plot, width = 10, height = 4)
   
   # plot second level ethnic group population structure
   ethnic_group_labels = age_structure_eth_detailed %>% 
@@ -485,20 +485,21 @@ create_age_specific_mortality_plots = function(){
   
   deaths_by_age_plot = ggplot(deaths_per_million, aes(x=age_group, y=deaths_per_million)) +
     geom_col(position="dodge", colour="black", fill="#1a5e71") + 
-    geom_text(aes(label = scales::comma(deaths_per_million, accuracy=1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=1.5) +
+    geom_text(aes(label = scales::comma(deaths_per_million, accuracy=1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5, fontface="bold") +
     #geom_label(aes(label = scales::comma(deaths_per_million, accuracy=1)), position = position_dodge(width = 1), fill="white", fontface="bold", size=1) +
     xlab("Age group") +
     ylab("Deaths per million population") +
-    theme_bw(base_size = 6) + 
+    scale_y_continuous(labels = scales::comma_format(accuracy = 1), limits = c(0,6000)) +
+    theme_bw(base_size = 10) + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(), 
           plot.margin = unit(c(1.5, 1.5, 1.5, 1.5), "lines"),
           legend.title = element_blank(), 
           legend.position = "top") +
-    labs(title = "COVID-19 deaths by age in England",
+    labs(title = "COVID-19 deaths in hospital by age in England",
          subtitle = paste0("Data for England up until ",deaths_date),
          caption = "Plot by Miqdad Asaria (@miqedup) | Data are from NHS England")
-  ggsave("figures/deaths_by_age.png", deaths_by_age_plot, width = 4, height = 3)
+  ggsave("figures/deaths_by_age.png", deaths_by_age_plot, width = 9, height = 5)
 }
 
 create_population_age_distribution_plots()
