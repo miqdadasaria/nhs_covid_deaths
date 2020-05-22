@@ -14,10 +14,10 @@
 }
 </style>
 
-Post code versus genetic code: ethnicity and racism in the time of COVID-19
+Postcode versus genetic code: ethnicity and racism in the time of COVID-19
 ========================================================
-author: Dr Miqdad Asaria (LSE)
-date: 8th May 2020
+author: Miqdad Asaria (LSE)
+date: 14th May 2020
 autosize: true
 
 Disclaimer
@@ -149,10 +149,6 @@ incremental: true
 * Worse treatment by hospitals leading to poorer treatment choices (DNR)
 * <font color="red">Poorer outcomes from interaction with health care system even if numbers and severity of cases are the same would result in more deaths </font>
 
-Index of multiple deprivation
-========================================================
-![imd](figures/imd_covid.png) 
-
 Evidence of socio-economic vulnerability in BAME communities
 ========================================================
 type: section
@@ -167,6 +163,10 @@ Index of multiple deprivation (cont.)
 * All dimensions of deprivation worse in more BAME areas
 * Particularly important are income, employment, health, housing, environment
 
+Index of multiple deprivation
+========================================================
+![imd](figures/imd_covid.png) 
+
 Index of multiple deprivation (indicators)
 ========================================================
 ![imd](figures/key_indicators.png)
@@ -179,15 +179,19 @@ Over-crowded households
 
 Over-crowded households by age
 ========================================================
-![over](figures/overcrowded_age.png)
+![over_age](figures/overcrowded_age.png)
 
 Workforce in precarious jobs (%)
 ========================================================
-![over](figures/lfs_plot.png)
+![precarious](figures/lfs_plot.png)
 
 Transport, drivers and operatives (%)
 ========================================================
-![over](figures/workforce_transport.png)
+![drivers](figures/workforce_transport.png)
+
+Deaths by occupation
+========================================================
+![occupation](figures/occupation.png)
 
 Studies controlling for health and socio-economic vulnerability
 ========================================================
@@ -257,54 +261,114 @@ type: section
 
 Data challenges
 ========================================================
+incremental: true
 * Death certificates do not record ethnicity
 * Ethnicity not always recorded on health records
 * Hard to find ethnicity data in other key administrative datasets
+* Bad data science already used in many areas of policy to step in and fill data gaps by extrapolating societal prejudices implicitly encoded into administrative data 
 
 Structural vs individual factors
 ========================================================
 * <font color="red">more frontline roles and poor public health advice</font> versus <font color="blue">cultural differences result in poor isolation</font>
-* <font color="red">higher allostatic load</font> versus <font color="blue">vitamin D deficiency from hijab and diet</font>
+* <font color="red">higher allostatic load</font> versus <font color="blue">vitamin D deficiency</font>
 * <font color="red">discrimination in 111/GP/Ambulance/Hospital</font> verus <font color="blue">reluctance to use healthcare</font>
-* Probably a mixture of causes any role found for individual factors should not allow us to ignore structural
+* Probably a mixture of causes any role found for individual factors should not conveniently obscure structural factors
+* How do we unpick the causal effects of the various factors using the observational data available
+
+Structural issues
+========================================================
+![belly](figures/mujinga.png)
+<small><small>
+Source: [Guardian, 12th May 2020](https://www.theguardian.com/uk-news/2020/may/12/uk-rail-worker-dies-coronavirus-spat-belly-mujinga)
+</small></small>
+***
+<small>
+* Belly Mujinga was a railway ticket office worker at London Victoria station
+* Her employers knew she had respiratory problems but still insisted she work on the concourse without PPE and interact with passengers
+* Man claiming to have coronavirus spat at her on the 22nd March 2020
+* She died from COVID-19 on the 5th April 2020
+</small>
+
+Individual narrative
+========================================================
+![civitas](figures/civitas.png)
+<small><small>Source: [Telegraph, 5th May 2020](https://www.telegraph.co.uk/news/2020/05/04/campaigners-twisting-bame-covid-data-victimhood-agenda/)
+</small></small>
+* structural issues seen as a <font color="red">"victimhood agenda"</font>
+
+***
+<small><small>
+“<font color="red">As it happens</font>, prior medical complications are not found in equal proportions in all ethnic groups. 73% of black adults in England are overweight or obese ... people classified as black or south Asian have much higher rates of diabetes than the population as a whole. And ‘older Pakistani men’ have ‘particularly high’ levels of cardiovascular disease. <font color="red">These differences have no connection to discrimination.</font>“
+
+“Then there are <font color="red">cultural differences</font>. South Asians are more likely to live in large households comprising three generations, thereby bringing vulnerable older people into more frequent contact with younger people who may carry the disease without realising. ... <font color="red">These are lifestyle choices unrelated to discrimination</font>.”
+</small></small>
+
+"Political" science
+========================================================
+incremental: true
+<small><small>
+![bmj](figures/bmj.png)
+<small>[Theodoratou, Evropi, et al. Bmj 348 (2014): g2035.](https://www.bmj.com/content/348/bmj.g2035)</small>
+* Poorly controlled observational studies and badly designed trials
+* <font color="red">No convincing evidence of vitamin D effect</font>
+
+***
+![beta blocker](figures/beta_blocker.png)
+<small>[Terbeck, Sylvia, et al. Psychopharmacology 222.3 (2012): 419-424.](https://link.springer.com/content/pdf/10.1007/s00213-012-2657-5.pdf)</small>
+* Double blind placebo controlled RCT the gold standard of clinical study design
+* <font color="red">Propranolol abolished implicit racial bias</font>
+
+</small></small>
 
 Government response
 ========================================================
-* NHS England released advice to all Hospitals to consider BAME staff vulnerable
+incremental: true
+* NHS England released advice to all hospitals to consider BAME staff vulnerable
 * Public Health England has launched an inquiry advised by Trevor Phillips 
 <small><small>
 <ol>
-<li>He has a history of leading inquiries that find 'cultural deficit' within the groups that are ‘failing’ and overlook structural issues</li>
-<li>He is currently suspended from Labour party over allegations of Islamophobia</li>
-<li>He works for a private sector firm who has produced software for the police that has been described as "data-driven identification technologies and databases [that] can replicate racialised stereotypes and reinforce institutionalised prejudices"</li></ol>
+<li>Former chairman of Equalities and Human Rights Commission who has a history of leading inquiries that identify 'cultural deficit' and overlook structural issues</li>
+<li>Is currently suspended from the Labour party over allegations of Islamophobia</li>
+<li>Works for a private sector firm that produces software for the police: "data-driven identification technologies and databases [that] can replicate racialised stereotypes and reinforce institutionalised prejudices" [(Guardian, 6 May 2020)](https://www.theguardian.com/world/2020/may/06/trevor-phillips-firms-origins-software-linked-ethnic-groups-to)</li></ol>
 </small></small>
 * It will be unsurprising to see this inquiry reporting back citing the individual factors
 * The enquiry is unlikely to win the confidence of people from BAME communities
 
-The individual narrative already emerging
+PHE Terms of Reference
 ========================================================
+![ToR](figures/ToR_1.png)
+***
+![ToR](figures/ToR_2.png)
+<small>
+"The review <font color="red">will not ascertain root causes of findings</font> that are likely to be driven by complex interactions"
+</small>
 <small><small>
-“As it happens, prior medical complications are not found in equal proportions in all ethnic groups. 73% of black adults in England are overweight or obese, some ten percentage points above the rate for the white British, and fifteen percentage points above the rate for all Asians. People classified as black or south Asian have much higher rates of diabetes than the population as a whole. And ‘older Pakistani men’ have ‘particularly high’ levels of cardiovascular disease. <font color="red" face="bold">These differences have no connection to discrimination.</font>“
 
-“Then there are cultural differences. South Asians are more likely to live in large households comprising three generations, thereby bringing vulnerable older people into more frequent contact with younger people who may carry the disease without realising. In London nearly one-third of households contain one person, but if the household is Bangladeshi, Indian or Pakistani the figures are  11pc, 17pc and 13pc respectively. <font color="red" face="bold">These are lifestyle choices unrelated to discrimination</font>.”
-
-Source: [David Green - Campaigners are twisting BAME Covid data to further their 'victimhood' agenda - Telegraph - 5th May 2020](https://www.telegraph.co.uk/news/2020/05/04/campaigners-twisting-bame-covid-data-victimhood-agenda/)
+Source: [Public Health England, May 2020](https://khub.net/documents/135939561/287909059/COVID-19+Impact+Review+ToRs.pdf/611bea2c-0cbe-4c71-57fe-abfeccdbf273?t=1588688788954)
 </small></small>
 
-How do we respond
+Research questions
 ========================================================
-* How do we find out and document what is going on
-* What are the immediate interventions we can think of to help
-* What are the longer term interventions to fix the structural issues
-* How do we ensure structural factors are not brushed under the carpet
+<small><small>
+* What interventions exists to help <font color="red">mitigate</font> these impacts in the immediate term?
+* Is it possible to unpick the <font color="red">causal effects</font> of the various individual and structural factors using the observational data available?
+* What does the response to the disease both in clinical terms and in economic terms tell us about the implicit valuation of different lives - i.e. what do the policy choices made so far reveal about the <font color="red">societal exchange rate</font> between Black lives and White lives - how does this compare across countries and correlate with other social values?
+* Do people voluntarily take on uncompensated risk or must <font color="red">power dynamics</font> be included in economic studues: implications for VSL, WTP etc.
+* Should we be conducting less simplistic epidemiological and [economic](https://aheblog.com/2018/09/12/method-of-the-month-distributional-cost-effectiveness-analysis/) analysis in order to understand the impact of policies on <font color="red">health inequalities</font> rather than roll out policies that exacerbate these inequalities?
+
+</small></small>
+
+References & data sources
+========================================================
+type: section
 
 References
 ========================================================
 <small><small> 
 * [Are there more COVID-19 deaths than expected in BAME communities in England – What does the data say?] (https://discoversociety.org/2020/04/29/are-there-more-covid-19-deaths-than-expected-in-bame-communities-in-england-what-does-the-data-say/) (Discover Society, 29th April 2020)
 * [Coronavirus will increase race inequalities](https://www.runnymedetrust.org/blog/coronavirus-will-increase-race-inequalities) (Runnymede Trust, 26th March 2020)
-* [Trevor Phillips' firm's Origins software linked ethnic groups to crime]() (Guardian, 6th May 2020)
-* [Exclusive: deaths of NHS staff from covid-19 analysed](https://www.hsj.co.uk/exclusive-deaths-of-nhs-staff-from-covid-19-analysed/7027471.article) (HSJ, 22nd April 2020)
+* [Are some ethnic groups more vulnerable to COVID-19 than others?] (https://www.ifs.org.uk/inequality/wp-content/uploads/2020/04/Are-some-ethnic-groups-more-vulnerable-to-COVID-19-than-others-V2-IFS-Briefing-Note.pdf) (Institute for Fiscal Studies, May 2020)
+* [Deaths of NHS staff from covid-19 analysed](https://www.hsj.co.uk/exclusive-deaths-of-nhs-staff-from-covid-19-analysed/7027471.article) (HSJ, 22nd April 2020)
 * [Local action on health inequalities Understanding and reducing ethnic inequalities in health](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/730917/local_action_on_health_inequalities.pdf) (PHE, 2018)
 * [BME workers far more likely to be trapped in insecure work, TUC analysis reveals](https://www.tuc.org.uk/news/bme-workers-far-more-likely-be-trapped-insecure-work-tuc-analysis-reveals) (TUC, 12 April 2019)
 </small></small>
@@ -316,7 +380,11 @@ Data Sources
 * [Deaths involving COVID-19 by local area and socioeconomic deprivation: deaths occurring between 1 March and 17 April 2020](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/bulletins/deathsinvolvingcovid19bylocalareasanddeprivation/deathsoccurringbetween1marchand17april) (ONS, 1st May 2020)
 * [Coronavirus (COVID-19) related deaths by ethnic group, England and Wales: 2 March 2020 to 10 April 2020](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/articles/coronavirusrelateddeathsbyethnicgroupenglandandwales/2march2020to10april2020) (ONS, 7th May 2020)
 * [Coronavirus-related deaths by ethnic group, England and Wales methodology](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/methodologies/coronavirusrelateddeathsbyethnicgroupenglandandwalesmethodology) (ONS, 7th May 2020)
+* [Coronavirus (COVID-19) related deaths by occupation, England and Wales: deaths registered up to and including 20 April 2020](https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/causesofdeath/bulletins/coronaviruscovid19relateddeathsbyoccupationenglandandwales/deathsregistereduptoandincluding20april2020) (ONS, 11th May 2020)
 * [Coronavirus (COVID-19) in the UK](https://coronavirus.data.gov.uk/?_ga=2.65262190.117505651.1588761177-840766805.1579178025) (PHE, 2020)
 * [COVID-19 Daily Deaths](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-daily-deaths/) (NHS England, 7th May 2020)
 * [English indices of deprivation 2019](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) (MHCLG, 26th September 2019)
 </small></small>
+
+
+

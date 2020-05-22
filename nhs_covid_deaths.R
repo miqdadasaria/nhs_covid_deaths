@@ -18,18 +18,18 @@ if(hour(Sys.time())>=14){
 }
 
 # set the date for the latest deaths by ethnicity data - used in chart titles
-deaths_date = "12th May 2020"
+deaths_date = "19th May 2020"
 # create date part of filename for deaths data
 date = paste0(day(data_date),"-",month(data_date, label=TRUE, abbr=FALSE),"-",year(data_date))
 # download deaths by age and ethnicity data from NHS England
-source_deaths = paste0("https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/0",month(data_date),"/COVID-19-total-announced-deaths-",date,".xlsx")
+source_deaths = paste0("https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/05/COVID-19-total-announced-deaths-21-May-weekly-tables.xlsx")
 dest_deaths = "data/nhs_deaths.xlsx"
 # saved file uses data published on "2020-04-30"
 # "https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2020/04/COVID-19-total-announced-deaths-30-April-2020.xlsx"
 download.file(url=source_deaths, destfile=dest_deaths, method = "auto", quiet=FALSE)
 
 # clean up the deaths by age data from NHS England
-deaths_by_age = read_excel(dest_deaths, sheet = "COVID19 total deaths by age", skip=15) %>%
+deaths_by_age = read_excel(dest_deaths, sheet = "Tab2 Deaths by gender", skip=15) %>%
   select(age_group = 'Age group', deaths='Total') %>%
   filter(!is.na(deaths)) %>%
   mutate(age_group = str_replace(age_group, " yrs", ""),
@@ -37,7 +37,7 @@ deaths_by_age = read_excel(dest_deaths, sheet = "COVID19 total deaths by age", s
   filter(age_group != "Total")
 
 # clean up the deaths by ethnicity data from NHS England
-deaths_by_ethnicity = read_excel(dest_deaths, sheet = "COVID19 all deaths by ethnicity", skip=15) %>%
+deaths_by_ethnicity = read_excel(dest_deaths, sheet = "Tab1 Deaths by ethnicity", skip=15) %>%
   select(ethnic_group=1, deaths=3, proportion=5) %>% 
   filter(!is.na(ethnic_group) & !is.na(proportion) & ethnic_group != "Total") %>%
   separate(ethnic_group,into=c("ethnic_group", "ethnicity"),sep=" \\(") %>%
@@ -145,7 +145,7 @@ create_level_1_ethnicity_plots = function(){
   # plot the numbers of expected and observed deaths 
   obs_exp_plot = ggplot(subset(graph_data_1,variable %in% c("Observed Deaths","Expected Deaths")),aes(x=ethnicity,y=value, group=variable, fill=variable)) +
     geom_col(position="dodge", colour="black") + 
-    geom_text(aes(label = scales::comma(value)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5, fontface="bold") +
+    geom_text(aes(label = scales::comma(value,1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2.5, fontface="bold") +
     xlab("Ethnicity") +
     ylab("Total number of deaths in hospital") +
     scale_fill_manual(values = c("Expected Deaths"="#003F5C","Observed Deaths"="#E69F00")) + 
@@ -456,11 +456,12 @@ create_population_age_distribution_plots = function(){
                                  "Other: Any other ethnic group")
   
   pop_structure_plot_detailed = ggplot(age_structure_eth_detailed, aes(x=age_group, y=proportion)) +
-    geom_col(position="dodge", colour="black", fill="#ef9f1e") + 
+    geom_col(position="dodge", colour="black", aes(fill=age_group)) + 
     geom_text(aes(label = scales::percent(proportion,accuracy = 1)), position = position_dodge(width = 1), vjust = -0.5, hjust=0.5, size=2) +
     xlab("Age Group") +
     ylab("Proportion of Population") +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+    scale_fill_manual(values = c("#ef9f1e","#ef9f1e","#ef9f1e","#bb1c0a","#bb1c0a")) +
     facet_wrap(.~ethnic_group, labeller = labeller(ethnic_group = ethnic_group_labels), ncol=4) +
     theme_bw(base_size = 10) + 
     theme(panel.grid.major = element_blank(), 
